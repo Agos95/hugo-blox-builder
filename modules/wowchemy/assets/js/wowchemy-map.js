@@ -7,13 +7,13 @@
 
 // Initialize Google Maps or OpenStreetMap via Leaflet.
 function initMap() {
-  if ($('#map').length) {
-    let map_provider = $('#map-provider').val();
-    let lat = $('#map-lat').val();
-    let lng = $('#map-lng').val();
-    let zoom = parseInt($('#map-zoom').val());
-    let address = $('#map-dir').val();
-    let api_key = $('#map-api-key').val();
+  if (document.getElementById('map') !== null) {
+    let map_provider = document.getElementById('map-provider').value;
+    let lat = document.getElementById('map-lat').value;
+    let lng = document.getElementById('map-lng').value;
+    let zoom = parseInt(document.getElementById('map-zoom').value);
+    let address = document.getElementById('map-dir').value;
+    let api_key = document.getElementById('map-api-key').value;
 
     if (map_provider === 'google') {
       let map = new GMaps({
@@ -62,9 +62,9 @@ function initMap() {
       let url = lat + ',' + lng + '#map=' + zoom + '/' + lat + '/' + lng + '&layers=N';
       marker.bindPopup(
         address +
-          '<p><a href="https://www.openstreetmap.org/directions?engine=osrm_car&route=' +
-          url +
-          '">Routing via OpenStreetMap</a></p>',
+        '<p><a href="https://www.openstreetmap.org/directions?engine=osrm_car&route=' +
+        url +
+        '">Routing via OpenStreetMap</a></p>',
       );
     }
   }

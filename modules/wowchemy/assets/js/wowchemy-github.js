@@ -6,15 +6,14 @@ import {hugoEnvironment} from '@params';
 
 function printLatestRelease(selector, repo) {
   if (hugoEnvironment === 'production') {
-    $.getJSON('https://api.github.com/repos/' + repo + '/tags')
-      .done(function (json) {
+    fetch('https://api.github.com/repos/' + repo + '/tags')
+      .then((json) => {
         let release = json[0];
-        $(selector).append(' ' + release.name);
-      })
-      .fail(function (jqxhr, textStatus, error) {
+        document.querySelector(selector).append(' ' + release.name);
+      }).catch((_, textStatus, error) => {
         let err = textStatus + ', ' + error;
         console.log('Request Failed: ' + err);
-      });
+      })
   }
 }
 

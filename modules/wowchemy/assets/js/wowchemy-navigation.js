@@ -24,11 +24,13 @@ function scrollToAnchor(target, duration = 0) {
     typeof target === 'undefined' || typeof target === 'object' ? decodeURIComponent(window.location.hash) : target;
 
   // If target element exists, scroll to it taking into account fixed navigation bar offset.
-  if ($(target).length) {
+  if (document.querySelector(target) !== null) {
     // Escape special chars from IDs, such as colons found in Markdown footnote links.
-    target = '#' + $.escapeSelector(target.substring(1)); // Previously, `target = target.replace(/:/g, '\\:');`
+    target = '#' + CSS.escape(target.substring(1)); // Previously, `target = target.replace(/:/g, '\\:');`
+    targetElement = document.querySelector(target);
 
-    let elementOffset = Math.ceil($(target).offset().top - getNavBarHeight()); // Round up to highlight right ID!
+    let elementOffset = Math.ceil( // Round up to highlight right ID!
+      targetElement.getBoundingClientRect().top + window.scrollY - getNavBarHeight());
     $('body').addClass('scrolling');
     $('html, body').animate(
       {
@@ -121,4 +123,4 @@ $(window).resize(function () {
 // Check for hash change event and fix responsive offset for hash links (e.g. Markdown footnotes).
 window.addEventListener('hashchange', scrollToAnchor);
 
-export {fixScrollspy, scrollToAnchor};
+export { fixScrollspy, scrollToAnchor };

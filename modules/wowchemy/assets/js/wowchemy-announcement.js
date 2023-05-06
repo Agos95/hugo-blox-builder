@@ -14,9 +14,9 @@ if (announcement !== null) {
   let announcement_id = announcement.dataset.id;
 
   // Check local storage for the announcement status
-  Object.keys(localStorage).forEach(function(key) {
+  Object.keys(localStorage).forEach(function (key) {
     if (/^wc-announcement-/.test(key)) {
-      if (key !== announcement_id ) {
+      if (key !== announcement_id) {
         localStorage.removeItem(key);
         document.documentElement.removeAttribute('data-wc-announcement-status');
         console.debug('Announcement key removed!');
@@ -26,7 +26,7 @@ if (announcement !== null) {
 
   // Dismiss announcement
   // TODO: for BS5 upgrade with vanilla JS, change to `announcement.addEventListener('closed.bs.alert', () => {`
-  $('#announcement').on('closed.bs.alert', function () {
+  document.getElementById('announcement').addEventListener('closed.bs.alert', () => {
     console.debug(`Announcement ${announcement_id} dismissed!`);
     localStorage.setItem(announcement_id, 'dismissed');
   });

@@ -5,7 +5,7 @@
  *  Algolia based search algorithm.
  **************************************************/
 
-import {algoliaConfig, i18n, content_type} from '@params';
+import { algoliaConfig, i18n, content_type } from '@params';
 import algoliasearch from 'https://cdn.jsdelivr.net/npm/algoliasearch@4/dist/algoliasearch.esm.browser.js';
 // import instantsearch from 'https://cdn.jsdelivr.net/npm/instantsearch.js@4/es/index.js'
 // import {searchBox, infiniteHits} from 'https://cdn.jsdelivr.net/npm/instantsearch.js@4/es/widgets/index.js';
@@ -42,9 +42,11 @@ function getSearchQuery(name) {
 document.addEventListener('DOMContentLoaded', () => {
   let queryURL = getSearchQuery('q');
   if (queryURL) {
-    $('body').addClass('searching');
-    $('.search-results').css({opacity: 0, visibility: 'visible'}).animate({opacity: 1}, 200);
-    let commonQueries = document.querySelector('#search-common-queries');
+    document.body.classList.add('searching');
+    let searchResultsQueries = document.querySelector('.search-results');
+    searchResultsQueries.style.cssText("opacity: 0; visibility: visible");
+    searchResultsQueries.animate([{ opacity: 0 }, { opacity: 1 }], 200);
+    let commonQueries = document.getElementById('search-common-queries');
 
     // Displaying common search queries in the search modal is an optional feature, so check if the element exists.
     if (commonQueries !== null) {
@@ -52,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  if (typeof instantsearch === 'function' && $('#search-box').length) {
+  if (typeof instantsearch === 'function' && (document.getElementById('search-box') !== null)) {
     const search = instantsearch({
       indexName: algoliaConfig.indexName,
       searchClient: algoliasearch(algoliaConfig.appId, algoliaConfig.apiKey),
@@ -139,12 +141,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // On render search results, localize the content type metadata.
     search.on('render', function () {
-      $('.search-hit-type').each(function () {
-        let content_key = $(this).text();
+      document.querySelectorAll('.search-hit-type').forEach((element) => {
+        let content_key = element.text();
         if (content_key in content_type) {
-          $(this).text(content_type[content_key]);
+          element.text(content_type[content_key]);
         }
-      });
+      }
+      );
     });
 
     if (algoliaConfig.analytics) {
