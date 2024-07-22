@@ -1,3 +1,6 @@
+# pagefind
+**/static/pagefind
+
 # IDE specific
 .idea/
 .vscode/
@@ -13,6 +16,7 @@ node_modules/
 go.sum
 resources/
 public/
+hugo_stats.json
 
 # Mac
 .DS_Store
